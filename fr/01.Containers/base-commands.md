@@ -31,7 +31,7 @@ hello
 
 L'image alpine n'étant pas disponible localement, elle est téléchargée depuis le Docker Hub. Un container est alors lancé à partir de cette image avec la commande spécifiée (echo "hello"). Le résultat de cette commande est affiché sur la sortie standard. Une fois la commande terminée, le container est stoppé mais il existe toujours.
 
-3. La commande à lancer est "docker container run alpine"
+3. La commande à lancer est ```docker container run alpine```
 
 L'image alpine étant déjà présente localement (téléchargée lors de l'étape précédente), elle est ré-utilisée. La commande exécutée par défaut lors du lancement d'un container basé sur alpine est "/bin/sh". Cette commande ne produit pas de résultat sur la sortie standard. Une fois la commande terminée, le container est stoppé mais il existe toujours.
 
@@ -49,12 +49,7 @@ Le but de cet exercice est de lancer des containers en mode intéractif
 
 4. Naviguez dans le système de fichiers
 
-5. Utilisez le gestionnaire de package d’alpine (apk) pour ajouter un package
-
-```
-$ apk update
-$ apk add curl
-```
+5. Utilisez le gestionnaire de package d’alpine **apk** pour ajouter un package
 
 ## Correction de l'exercice 2
 
@@ -66,18 +61,22 @@ docker container run -ti alpine
 
 2. Nous obtenons un shell sh dans le container.
 
-3. Par défaut, la commande par défaut utilisée dans l'image alpine est /bin/sh  
+3. Par défaut, la commande par défaut utilisée dans l'image alpine est **/bin/sh**
 
 Note: nous y reviendrons plus tard mais il est intéressant de voir que cette information est présente dans le fichier Dockerfile qui est utilisé pour créer l'image (https://github.com/gliderlabs/docker-alpine/blob/2127169e2d9dcbb7ae8c7eca599affd2d61b49a7/versions/library-3.6/x86_64/Dockerfile)
 
-4. Nous pouvons naviguer dans le système de fichiers de la même façon que nous le faisons dans une autre distribution Linux plus "traditionnelle" en utilisant les commandes cd, ls, pwd, cat, less, ...
+4. Nous pouvons naviguer dans le système de fichiers de la même façon que nous le faisons dans une autre distribution Linux plus "traditionnelle" en utilisant les commandes ``cd``, ``ls``, ``pwd``, ``cat``, ``less``, ...
 
-5. Le gestionnaire de package d'une distribution alpine est apk
+5. Le gestionnaire de package d'une distribution alpine est **apk**
 
-Pour mettre à jour la liste des packages, nous pouvons utiliser la commande apk update .
+Pour mettre à jour la liste des packages, nous pouvons utiliser la commande ``apk update``
 
-Pour installer un package, comme curl , nous utilisons la commande suivante apk add curl
+Pour installer un package, comme curl, nous utilisons la commande suivante ``apk add curl``
 
+```
+$ apk update
+$ apk add curl
+```
 ---
 
 ## Exercice 3 : foreground / background
@@ -118,7 +117,7 @@ docker container run -ti alpine ping 8.8.8.8
 
 4. La commande CTRL-P CTRL-Q permet de se détacher du pseudo terminal (alloué avec les options -t -i, ou -ti).
 
-Le container continue à tourner. Il est listé avec la commande ```docker ps```
+Le container continue à tourner. Il est listé avec la commande ```docker ps``` et son étau est **Up**
 
 5. La commande suivante permet de lancer le container en background
 
@@ -126,7 +125,7 @@ Le container continue à tourner. Il est listé avec la commande ```docker ps```
 docker container run -d alpine ping 8.8.8.8
 ```
 
-La commande docker ps permet de voir que le container tourne, il n'est simplement pas attaché au terminal depuis lequel il a été lancé.
+La commande ``docker ps`` permet de voir que le container tourne, il n'est simplement pas attaché au terminal depuis lequel il a été lancé.
 
 ---
 
