@@ -2,7 +2,7 @@
 
 ## Enoncé
 
-1. Lancez une container basé sur une image *alpine:3.8*, en mode interactif, et en lui donnant le nom *c1*
+1. Lancez un container basé sur une image *alpine:3.8*, en mode interactif, et en lui donnant le nom *c1*
 
 2. Lancez la commande *curl google.com*
 
@@ -23,13 +23,13 @@ Utilisez pour cela la commande *commit* (*docker commit --help* pour voir le fon
 
 1. La commande suivante permet de créer le container demandé
 
-On utilise l'option --name pour spécifier le nom du container.
+On utilise l'option ``--name`` pour spécifier le nom du container.
 
 ```
 $ docker container run -ti --name c1 alpine:3.8
 ```
 
-Suite à cette commande, on se retrouve dans un shell *sh* dans le container.
+Suite à cette commande, on se retrouve dans un shell ``sh`` dans le container.
 
 2. L'utilitaire *curl* n'est pas disponible dans une image alpine, il faut l'installer.
 
@@ -63,7 +63,7 @@ OK: 6 MiB in 18 packages
 $ docker container commit c1 curly
 ```
 
-6. La commande suivante permet de lancer un shell *sh* dans un container basé sur l'image *curly*.
+6. La commande suivante permet de lancer un shell ``sh`` dans un container basé sur l'image *curly*.
 
 Note: même si l'on ne précise pas la commande *sh*, la commande utilisée par défaut est celle de l'image à partir de laquelle *curly* a été créée, c'est à dire *alpine*. 
 
@@ -85,4 +85,4 @@ The document has moved
 
 ## Pour résumer
 
-Nous avons donc lancé un container, ajouté un binaire dans ce container et commité le tout en une nouvelle image. Le binaire est donc présent dans cette image. Commiter un container pour créer une image n'est pas l'approche recommandée. La création d'une image se fait à partir d'un Dockerfile, fichier texte contenant l'ensemble des commandes nécessaires.
+Nous avons donc lancé un container, avons ajouté un binaire dans ce container et commité le tout en une nouvelle image Docker. Le binaire est donc présent dans cette image. Commiter un container pour créer une image n'est pas l'approche recommandée. La création d'une image peut se faire aussi à partir d'un Dockerfile, fichier texte contenant l'ensemble des commandes nécessaires.
