@@ -6,27 +6,27 @@ Nous allons illustrer sur plusieurs exemples l’utilisation des instructions EN
 
 Dans un Dockerfile, les instructions ENTRYPOINT et CMD peuvent être spécifiées selon 2 formats:
 
-* le format shell, ex: `ENTRYPOINT /usr/bin/node index.js`.
+* le format **shell**, ex: `ENTRYPOINT /usr/bin/node index.js`.
   Une commande spécifiée dans ce format sera exécutée via un shell présent dans l’image. Cela peut notamment poser des problématiques car les signaux ne sont pas forwardés aux processus forkés.
 
-* le format exec, ex: CMD `["node", "index.js"]`.
+* le format **exec**, ex: `CMD ["node", "index.js"]`.
   Une commande spécifiée dans ce format ne nécessitera pas la présence d’un shell dans l’image. On utilisera souvent le format exec pour ne pas avoir de problème si aucun shell n’est présent.
 
 ## Ré-écriture à l’exécution d’un container
 
-ENTRYPOINT et CMD sont 2 instructions du Dockerfile, mais elle peuvent cependant être écrasées au lancement d’un container:
+ENTRYPOINT et CMD sont 2 instructions du Dockerfile, mais elles peuvent cependant être écrasées au lancement d’un container:
 
-* pour spécifier une autre valeur pour l’ENTRYPOINT, on utilisera l’option --entrypoint, par exemple:
+* pour spécifier une autre valeur pour l’ENTRYPOINT, on utilisera l’option --entrypoint, par exemple :
 `docker container run --entrypoint echo alpine hello`
 
-* pour spécifier une autre valeur pour CMD, on précisera celle-ci après le nom de l’image, par exemple:
+* pour spécifier une autre valeur pour CMD, on précisera celle-ci après le nom de l’image, par exemple :
 `docker container run alpine echo hello`
 
 ## Instruction ENTRYPOINT utilisée seule
 
-L’utilisation de l’instruction ENTRYPOINT seule permet de créer un wrapper autour de l’application. Nous pouvons définir une commande de base et lui donner des paramètres suplémentaires, si nécessaire, au lancement d’un container.
+L’utilisation de l’instruction ENTRYPOINT seule permet de créer un wrapper autour de l’application. Nous pouvons définir une commande de base et lui donner des paramètres supplémentaires, si nécessaire, au lancement d’un container.
 
-Dans ce premier exemple, vous allez créer un fichier Dockerfile-v1 contenant les instructions suivantes:
+Dans ce premier exemple, vous allez créer un fichier Dockerfile-v1 contenant les instructions suivantes :
 
 ```
 FROM alpine
@@ -45,7 +45,7 @@ Lancez maintenant un container basé sur l’image ping:1.0
 $ docker container run ping:1.0
 ```
 
-La commande ping est lancée dans le container (car elle est spécifiée dans ENTRYPOINT), ce qui produit le message suivant:
+La commande ping est lancée dans le container (car elle est spécifiée dans ENTRYPOINT), ce qui produit le message suivant :
 
 ```
 BusyBox v1.26.2 (2017-05-23 16:46:25 GMT) multi-call binary.
@@ -68,7 +68,7 @@ Send ICMP ECHO_REQUEST packets to network hosts
         -p              Pattern to use for payload
 ```
 
-Par défaut, aucune machine hôte n’est ciblée, et à chaque lancement d’un container il est nécessaire de préciser un FQDN ou une IP. La commande suivante lance un nouveau container en lui donnant l’adresse IP d’un DNS Google (8.8.8.8), nous ajoutons également l’option -c 3 pour limiter le nombre de ping envoyés.
+Par défaut, aucune machine hôte n’est ciblée, et à chaque lancement d’un container il est nécessaire de préciser un FQDN ou une IP. La commande suivante lance un nouveau container en lui donnant l’adresse IP d’un DNS Google (8.8.8.8), nous ajoutons également l’option **-c 3** pour limiter le nombre de ping envoyés.
 
 ```
 $ docker container run ping:1.0 -c 3 8.8.8.8
@@ -89,13 +89,13 @@ round-trip min/avg/max = 8.503/8.580/8.731 ms
 
 La commande lancée dans le container est donc la concaténation de l’ENTRYPOINT et de la commande spécifiée lors du lancement du container (tout ce qui est situé après le nom de l’image).
 
-Comme nous pouvons le voir dans cet exemple, l’image que nous avons créée est un wrapper autour de l’utilitaire ping et nécessite de spécifier des paramêtres supplémentaires au lancement d’un container.
+Comme nous pouvons le voir dans cet exemple, l’image que nous avons créée est un wrapper autour de l’utilitaire ping et nécessite de spécifier des paramètres supplémentaires au lancement d’un container.
 
 ## Instructions CMD utilisée seule
 
 De la même manière, il est possible de n’utiliser que l’instruction CMD dans un Dockerfile, c’est d’ailleurs très souvent l’approche qui est utilisée car il est plus simple de manipuler les instructions CMD que les ENTRYPOINT.
 
-Créez un fichier Dockerfile-v2 contenant les instructions suivantes:
+Créez un fichier Dockerfile-v2 contenant les instructions suivantes :
 
 ```
 FROM alpine
@@ -140,7 +140,7 @@ Si nous ne spécifions que les paramètres de la commande ping, nous obtenons un
 $ docker container run ping:2.0 -c 3 8.8.8.8
 ```
 
-Vous devriez alors obtenir l’erreur suivante:
+Vous devriez alors obtenir l’erreur suivante :
 
 ```
 container_linux.go:247: starting container process caused "exec: \"-c\": executable file not found in $PATH"
@@ -167,7 +167,7 @@ round-trip min/avg/max = 8.512/9.086/10.223 ms
 
 Il est également possible d’utiliser ENTRYPOINT et CMD en même temps dans un Dockerfile, ce qui permet à la fois de créer un wrapper autour d’une application et de spécifier un comportement par défaut.
 
-Nous allons illustrer cela sur un nouvel exemple et créer un fichier Dockerfile-v3 contenant les instructions suivantes:
+Nous allons illustrer cela sur un nouvel exemple et créer un fichier Dockerfile-v3 contenant les instructions suivantes :
 
 ```
 FROM alpine
@@ -175,7 +175,7 @@ ENTRYPOINT ["ping"]
 CMD ["-c3", "localhost"]
 ```
 
-Ici, nous définissons ENTRYPOINT et CMD, la commande lancée dans un container sera la concaténation de ces 2 instructions: ping -c3 localhost.
+Ici, nous définissons ENTRYPOINT et CMD, la commande lancée dans un container sera la concaténation de ces 2 instructions : ``ping -c3 localhost``
 
 Créez une image à partir de ce Dockerfile, nommez la ping:3.0, et lançez un nouveau container à partir de celle-ci.
 
@@ -203,7 +203,7 @@ Nous pouvons écraser la commande par défaut et spécifier une autre adresse IP
 $ docker container run ping:3.0 8.8.8.8
 ```
 
-Nous obtenons alors le résultat suivant:
+Nous obtenons alors le résultat suivant :
 
 ```
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
@@ -212,6 +212,6 @@ PING 8.8.8.8 (8.8.8.8): 56 data bytes
 64 bytes from 8.8.8.8: seq=2 ttl=38 time=8.585 ms
 ```
 
-Il faut alors faire un CTRL-C pour arrêter le container car l’option -c3 limitant le nombre de ping n’a pas été spécifiée.
+Il faut alors faire un CTRL-C pour arrêter le container car l’option ``-c3`` limitant le nombre de ping n’a pas été spécifiée.
 
 Cela nous permet à la fois d’avoir un comportement par défaut et de pouvoir facilement le modifier en spécifiant une autre commande.
