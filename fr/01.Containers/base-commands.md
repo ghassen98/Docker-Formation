@@ -133,7 +133,7 @@ La commande ``docker ps`` permet de voir que le container tourne, il n'est simpl
 
 Le but de cet exercice est de créer un container en exposant un port sur la machine hôte
 
-1. Lancez un container basé sur nginx et publiez le port 80 du container sur le port 8080 de l’hôte
+1. Lancez un container basé sur **nginx** et publiez le port 80 du container sur le port 8080 de l’hôte
 
 2. Vérifiez depuis votre navigateur que la page par défaut de nginx est servie sur http://localhost:8080
 
@@ -149,9 +149,9 @@ Qu’observez-vous ?
 docker container run -d -p 8080:80 nginx
 ```
 
-2. La page index.html servie par défaut par nginx est accessible sur le port 8080
+2. La page *index.html* servie par défaut par nginx est accessible sur le port 8080
 
-![Nginx](./images/port-mapping.png)
+![Nginx](./img/nginx-webpage.png)
 
 3. Si nous lançons un autre container en utilisant le même port de la machine hôte, nous obtenons une erreur car ce port ne peut pas être utilisé pour les 2 containers.
 
