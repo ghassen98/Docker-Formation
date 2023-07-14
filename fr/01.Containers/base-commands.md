@@ -171,26 +171,25 @@ Le but de cet exercice est de montrer les différentes options pour lister les c
 
 Est ce que tous les containers que vous avez créés sont listés ?
 
-2. Utilisez l’option -a pour voir également les containers qui ont été stoppés
+2. Utilisez l’option ``-a`` pour voir également les containers qui ont été stoppés
 
-3. Utilisez l’option -q pour ne lister que les IDs des containers (en cours d’exécution ou stoppés)
+3. Utilisez l’option ``-q`` pour ne lister que les IDs des containers (en cours d’exécution ou stoppés)
 
 ## Correction de l'exercice 5
 
-1. Pour lister les containers en cours d'execution sur le système, les 2 commandes suivantes sont équivalentes
+1. Pour lister les containers en cours d'execution sur le système, les 2 commandes suivantes sont équivalentes :
 
 - ```docker container ls```
 - ```docker ps```
 
-Note: la seconde commande est historique et date de l'époque ou la plateforme Docker était principalement utilisée pour la gestion des containers et des images. Par la suite, d'autres primitives que nous verrons dans les prochains chapitres ont été ajoutées (volume, network, node, ...), ce qui a conduit à une refactorisation de l'api disponible en ligne de commande.
+Note: la seconde commande est historique et date de l'époque où la plateforme Docker était principalement utilisée pour la gestion des containers et des images. Par la suite, d'autres primitives que nous verrons dans les prochains chapitres ont été ajoutées (volume, network, node, ...), ce qui a conduit à une refactorisation de l'API disponible en ligne de commande.
 
 Seuls les containers en cours d'execution sont listés. Les containers qui ont été créés puis arrêtés ne sont pas visible dans la sortie de cette commande.
 
 2. Les commandes suivantes permettent de lister les containers en cours d'execution ainsi que ceux qui sont stoppés.
 
-```
-docker container ls -a  et docker ps -a
-```
+- ```docker container ls -a```
+- ```docker ps -a```
 
 3. Les commandes suivantes permettent de lister les identifiants de l'ensemble des containers tournant sur la machine hôte, ceux en cours d'execution et également ceux qui ont été stoppés.
 
@@ -205,19 +204,19 @@ Note: on verra que ces commandes sont très utiles, notamment lorsque l'on souha
 
 Le but de cet exercice est l'inspection d’un container
 
-1. Lancez, en background, un nouveau container basé sur nginx:1.14 en publiant le port 80 du container sur le port 3000 de la machine host.
+1. Lancez, en background, un nouveau container basé sur **nginx:1.14** en publiant le port 80 du container sur le port 3000 de la machine host.
 
 Notez l'identifiant du container retourné par la commande précédente.
 
-2. Inspectez le container en utilisant son identifiant
+2. Inspectez le container en utilisant son identifiant.
 
-3. En utilisant le format Go template, récupérez le nom et l’IP du container
+3. En utilisant le format **Go template**, récupérez le nom et l’IP du container.
 
-4. Manipuler les Go template pour récupérer d'autres information
+4. Manipuler les **Go template** pour récupérer d'autres informations.
 
 ## Correction de l'exercice 6
 
-1. La commande permettant de lancer le container en question est la suivante
+1. La commande permettant de lancer le container en question est la suivante :
 
 ```
 $ docker container run -d -p 3000:80 nginx:1.14
@@ -236,9 +235,9 @@ Status: Downloaded newer image for nginx:1.14
 6eea1906d21fa26c6bd8695c317e29f99e651657063df1964a18906091bd1ed5
 ```
 
-2. L'inspection d'un container se fait à l'aide de la commande docker inspect CONTAINER_ID
+2. L'inspection d'un container se fait à l'aide de la commande ``docker inspect CONTAINER_ID``
 
-Note: il est possible de n'utiliser que les permiers caractères de l'identifiant, ou bien le nom du container si celui-ci à été précisé avec l'option --name  lors de la création.
+Note: il est possible de n'utiliser que les permiers caractères de l'identifiant, ou bien le nom du container si celui-ci à été précisé avec l'option ``--name`` lors de la création.
 
 ```
 $ docker inspect 6ee
@@ -339,7 +338,7 @@ Le résultat de la commande ci-dessus a été volontairement tronqué pour amél
 ]
 ```
 
-3. Les format de templating "Go template" permet de récupérer seulement les informations dont on a besoin dans cette imposante structure json.
+3. Le format de templating "Go template" permet de récupérer seulement les informations dont on a besoin dans cette imposante structure json.
 
 La commande utilisée pour récupérer le nom du container:
 
@@ -360,17 +359,17 @@ $ docker inspect -f '{{ .NetworkSettings.IPAddress }}' efc940
 
 ---
 
-## Exercice 7 : exec dans un container
+## Exercice 7 : Faire un exec dans un container
 
 Le but de cet exercice est de montrer comment lancer un processus dans un container existant
 
-1. Lancez un container en background, basé sur l’image **alpine**. Spécifiez la commande ```ping 8.8.8.8``` et le nom ping avec l’option --name
+1. Lancez un container en background, basé sur l’image **alpine**. Spécifiez la commande ```ping 8.8.8.8``` et le nom ping avec l’option ``--name``
 
 2. Observez les logs du container en utilisant l’ID retourné par la commande précédente ou bien le nom du container
 
 Quittez la commande de logs avec CTRL-C
 
-3. Lancez un shell sh, en mode interactif, dans le container précédent
+3. Lancez un shell ``sh``, en mode interactif, dans le container précédent
 
 4. Listez les processus du container
 
@@ -387,7 +386,7 @@ $ docker container run -d --name ping alpine ping 8.8.8.8
 172c401915f56e3fb10391259fac77bc2d3c194a1b27fa5072335e04656e57bb
 ```
 
-2. La commande suivante permet de suivre les logs en continue (option -f) à partir de l'identifiant
+2. La commande suivante permet de suivre les logs en continue (option **-f**) à partir de l'identifiant
 
 ```
 $ docker container logs -f 172
@@ -430,7 +429,7 @@ PID   USER     TIME   COMMAND
    13 root       0:00 ps aux
 ```
 
-On peut voir que la commande avec laquelle le container a été lancé (ping 8.8.8.8 ) à le PID 1 (identifiant du processus). La commande sh que nous avons ensuite lancée dans le container à le PID 7 dans l'arbre de processus. Nous voyons également la commande ps aux  qui a obtenue le PID 13, cette commande n'est plus active et si on la relance une nouvelle fois, on obtiendra un nouveau PID:
+On peut voir que la commande avec laquelle le container a été lancé (``ping 8.8.8.8``) à le PID 1 (identifiant du processus). La commande ``sh`` que nous avons ensuite lancée dans le container à le PID 7 dans l'arbre de processus. Nous voyons également que la commande ``ps aux`` a obtenue le PID 13, cette commande n'est plus active et si on la relance une nouvelle fois, on obtiendra un nouveau PID:
 
 ```
 / # ps aux
@@ -440,7 +439,7 @@ PID   USER     TIME   COMMAND
    14 root       0:00 ps aux
 ```
 
-On peut sortir de notre shell avec un simple ```exit```, le container continuera à tourner tant que le process de PID 1 est actif.
+On peut sortir de notre shell avec un simple ``exit``, le container continuera à tourner tant que le process de PID 1 est actif.
 
 ---
 
@@ -450,7 +449,7 @@ Le but de cet exercice est de stopper et de supprimer les containers existants
 
 1. Listez tous les containers (actifs et inactifs)
 
-2. Stoppez tous les containers encore actifs en fournissant la liste des IDs à la commande stop
+2. Stoppez tous les containers encore actifs en fournissant la liste des IDs à la commande ``stop``
 
 3. Vérifiez qu’il n’y a plus de containers actifs
 
@@ -473,7 +472,7 @@ docker ps -a
 docker container ls -a
 ```
 
-2. Pour stopper, en une seule ligne de commande, l'ensemble des containers qui tournent, on peut donner la liste des identifiants à la commande stop . On utilise pour cela l'option -q lorsque l'on liste les containers.
+2. Pour stopper, en une seule ligne de commande, l'ensemble des containers qui tournent, on peut donner la liste des identifiants à la commande ``stop``. On utilise pour cela l'option ``-q`` lorsque l'on liste les containers.
 
 ```
 docker container stop $(docker container ls -q)  
@@ -487,7 +486,7 @@ docker container ls
 
 Note: cette commande est équivalente à ```docker ps```
 
-4. Si on ajoute l'option -a , on obtient les containers qui sont arrêtés.
+4. Si on ajoute l'option -``a``, on obtient les containers qui sont arrêtés.
 
 ```
 docker container ls -a
@@ -495,7 +494,7 @@ docker container ls -a
 
 Note: cette commande est équivalente à ```docker ps -a```
 
-5. Pour supprimer les containers qui sont arrêtés, on procède de la même façon que dans la question 2, on donne la liste des identifiants à la commande rm.
+5. Pour supprimer les containers qui sont arrêtés, on procède de la même façon que dans la question 2, on donne la liste des identifiants à la commande ``rm``.
 
 ```
 docker container rm $(docker container ls -aq)
@@ -510,4 +509,4 @@ docker container ls -a
 
 ## En résumé
 
-Nous avons commencé à jouer avec les containers et vu les commandes les plus utilisées pour la gestion du cycle de vie des containers (run, exec, ls, rm, inspect). Nous les utiliserons souvent dans la suite du cours.
+Nous avons commencé à jouer avec les containers et avons vu les commandes les plus utilisées pour la gestion du cycle de vie des containers (``run``, ``exec``, ``ls``, ``rm``, ``inspect``). Nous les utiliserons souvent dans la suite du cours.
