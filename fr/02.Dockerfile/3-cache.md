@@ -66,7 +66,7 @@ $ docker image build -t pong:1.2 .
 
 Un cache est créé pour chaque étape du build.
 
-1. Nous faisons une nouvelle modification dans le fichier *pong.js*.
+5. Nous faisons une nouvelle modification dans le fichier *pong.js*.
 
 ```
 var express = require('express');
