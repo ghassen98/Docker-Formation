@@ -69,7 +69,7 @@ There's some miscellaneous information about the network, but notice the `"Conta
 Let's start a `ping` container, and inspect this again:
 
 ```
-$ docker run --rm -d --name dummy delner/ping:1.0
+$ docker run -d --name dummy ghassen98/ping:1.0
 104633917dbfe00843722336838f163b800dde46e632e47470b204c21fc44f21
 $ docker network inspect bridge
 ...
@@ -89,12 +89,12 @@ $
 You can see the container was added to the default network. Now let's add another `ping` container, and set it to ping our first.
 
 ```
-$ docker run --rm -d -e PING_TARGET=172.17.0.2 --name pinger delner/ping:1.0
+$ docker run --rm -d -e PING_TARGET=172.17.0.2 --name pinger ghassen98/ping:1.0
 3a79f28b8ac36c0e7aae523c4831c9405c110d593c15a30639606250595b245b
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
-3a79f28b8ac3        delner/ping:1.0     "sh -c 'ping $PING..."   4 seconds ago        Up 3 seconds                            pinger
-104633917dbf        delner/ping:1.0     "sh -c 'ping $PING..."   About a minute ago   Up About a minute                       dummy
+3a79f28b8ac3        ghassen98/ping:1.0     "sh -c 'ping $PING..."   4 seconds ago        Up 3 seconds                            pinger
+104633917dbf        ghassen98/ping:1.0     "sh -c 'ping $PING..."   About a minute ago   Up About a minute                       dummy
 $ docker logs pinger
 PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.171 ms
@@ -109,11 +109,11 @@ Inspecting the logs for `pinger` we can see it was able to successfully ping the
 Running `ping` with the `dummy` as the target:
 
 ```
-$ docker run --rm -d -e PING_TARGET=dummy --name pinger delner/ping:1.0
+$ docker run --rm -d -e PING_TARGET=dummy --name pinger2 ghassen98/ping:1.0
 3a79f28b8ac36c0e7aae523c4831c9405c110d593c15a30639606250595b245b
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
-104633917dbf        delner/ping:1.0     "sh -c 'ping $PING..."   About a minute ago   Up About a minute                       dummy
+104633917dbf        ghassen98/ping:1.0     "sh -c 'ping $PING..."   About a minute ago   Up About a minute                       dummy
 $
 ```
 
@@ -172,13 +172,13 @@ To remove networks, run `docker network rm` and provide it the network name.
 Let's rerun the `ping` container, this time assigning it a network:
 
 ```
-$ docker run --rm -d --network skynet --name dummy delner/ping:1.0
+$ docker run --rm -d --network skynet --name dummy ghassen98/ping:1.0
 ```
 
 Then the pinger, targeting the dummy `ping` container:
 
 ```
-$ docker run --rm -d --network skynet -e PING_TARGET=dummy --name pinger delner/ping:1.0
+$ docker run --rm -d --network skynet -e PING_TARGET=dummy --name pinger ghassen98/ping:1.0
 28e68fed9fe28a4346951fa8b6f4147a16f2afec8671357f1ed5f27425914b0a
 $ docker logs pinger
 PING dummy (172.26.0.2) 56(84) bytes of data.
@@ -201,9 +201,9 @@ Let's setup two `postgres` databases to connect to one another: a `widget` datab
 Start each of the databases and add them to the network:
 
 ```
-$ docker run --rm -d --name widgetdb --network skynet -p 5432 postgres
+$ docker run --rm -d --name widgetdb --network skynet -p 5432 postgres:9.6.2
 7f0248e3c0f4f03159ef966fd9767a4c7e3412801f8b0445cebb933d1e84e020
-$ docker run --rm -d --name gadgetdb --network skynet -p 5432 postgres
+$ docker run --rm -d --name gadgetdb --network skynet -p 5432 postgres:9.6.2
 8dc66701837c695728abb9046db71924112a9b8f2f1e096094ab5b5d631e2f73
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                     NAMES
@@ -252,7 +252,7 @@ Sometimes its useful to access an application running in a Docker container dire
 To this end, you can bind ports from a container to a port on your host machine. To do this, the altered command from our previous Postgres example would look like:
 
 ```
-$ docker run --rm -d --name widgetdb --network skynet -p 5432:5432 postgres
+$ docker run --rm -d --name widgetdb --network skynet -p 5432:5432 postgres:9.6.2
 ```
 
 The `-p` flag given `<host port>:<container port>` does this mapping, making the server available as `localhost:5432`:
@@ -267,6 +267,8 @@ Type "help" for help.
 postgres=# \q
 $
 ```
+
+You can install psql client with commands ``sudo apt-get install postgresql-client-common`` and ``sudo apt-get install postgresql-client`` for Ubuntu OS.
 
 It's important to keep in mind that you can only bind one application to a host port at a time. If you try to start any applications on your host machine, or other Docker containers that want to bind to a port already in use, they will fail to do so. 
 
