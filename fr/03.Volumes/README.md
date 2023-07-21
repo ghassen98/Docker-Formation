@@ -1,8 +1,8 @@
 # Utilisation des volumes
 
-Dans cet exercice lab, nous allons illustrer la notion de volume. Nous verrons notamment comment définir un volume:
+Dans cet exercice, nous allons illustrer la notion de volume. Nous verrons notamment comment définir un volume:
 * dans un Dockerfile
-* au lancement d’un container en utilisant l’option -v
+* au lancement d’un container en utilisant l’option ``-v``
 * en utilisant la ligne de commande
 
 ## Prérequis
@@ -13,7 +13,7 @@ Pour certaines commandes vous aurez besoin de l'utilitaire *jq* qui permet de ma
 
 - Si vous utilisez Docker Desktop
 
-la plateforme Docker est installée dans une machine virtuelle tournant sur un hyperviseur léger (dépendant de votre OS). Pour effectuer cet exercice il vous faudra lancer la commande suivante pour accéder à un shell dans cette machine virtuelle.
+La plateforme Docker est installée dans une machine virtuelle tournant sur un hyperviseur léger (dépendant de votre OS). Pour effectuer cet exercice il vous faudra lancer la commande suivante pour accéder à un shell dans cette machine virtuelle.
 
 ```
 docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
@@ -45,7 +45,7 @@ Sortez ensuite du container.
 exit
 ```
 
-Lors de la création du container, une layer read-write est ajoutée au dessus des layers read-only de l’image sous jacente. C’est dans cette layer que les changements que nous avons apportés dans le container ont étés persistés (création du fichier */data/hello.txt*). Nous allons voir comment cette layer est accessible depuis la machine hôte (celle sur laquelle tourne le daemon Docker) et vérifier que nos modifications sont bien présentes.
+Lors de la création du container, une layer read-write est ajoutée au dessus des layers read-only de l’image sous jacente. C’est dans cette layer que les changements que nous avons apportés dans le container ont été persistés (création du fichier */data/hello.txt*). Nous allons voir comment cette layer est accessible depuis la machine hôte (celle sur laquelle tourne le daemon Docker) et vérifier que nos modifications sont bien présentes.
 
 Utilisez la command *inspect* pour obtenir le path de la layer du container *c1*. La clé qui nous intéresse est *GraphDriver*.
 
