@@ -1,9 +1,9 @@
 # La stack ELK (Elastic)
 
 Cette stack est très souvent utilisée notamment pour ingérer et indexer des logs. Elle est composée de 3 logiciels:
-* Logstash qui permet de filtrer / formatter les données entrantes et de les envoyer à Elasticsearch (et à d'autres applications)
-* Elasticsearch, le moteur responsable de l'indexation des données
-* Kibana, l'application web permettant la visualisation des données
+* **Logstash** qui permet de filtrer / formatter les données entrantes et de les envoyer à Elasticsearch (et à d'autres applications)
+* **Elasticsearch**, le moteur responsable de l'indexation des données
+* **Kibana**, l'application web permettant la visualisation des données
 
 ## Le but de cet exemple
 
@@ -90,15 +90,15 @@ output {
 ```
 
 Ce fichier peu sembler un peu compliqué. Il peut être découpé en 3 parties:
-* input: permet de spécifier les données d'entrée. Nous spécifions ici que Logstash peut recevoir des données (entrées de logs)  sur du http
+* ``input``: permet de spécifier les données d'entrée. Nous spécifions ici que Logstash peut recevoir des données (entrées de logs)  sur du http
 
-* filter: permet de spécifier comment les données d'entrée doivent être traitées avant de passer à l'étape suivante. Plusieurs instructions sont utilisées ici:
-  * grok permet de spécifier comment chaque entrée doit être parsée. De nombreux parseurs sont disponibles par défaut et nous spécifions ici (avec COMBINEDAPACHELOG) que chaque ligne doit être parsée suivant un format de log apache, cela permettra une extraction automatique des champs comme l'heure de création, l'url de la requête, l'ip d'origine, le code retour, ...
-  * mutate permet de convertir les types de certains champs
-  * geoip permet d'obtenir des informations géographique à partir de l'adresse IP d'origine
-  * date est utilisée ici pour reformatter le timestamp
+* ``filter``: permet de spécifier comment les données d'entrée doivent être traitées avant de passer à l'étape suivante. Plusieurs instructions sont utilisées ici:
+  * ``grok`` permet de spécifier comment chaque entrée doit être parsée. De nombreux parseurs sont disponibles par défaut et nous spécifions ici (avec COMBINEDAPACHELOG) que chaque ligne doit être parsée suivant un format de log apache, cela permettra une extraction automatique des champs comme l'heure de création, l'url de la requête, l'ip d'origine, le code retour, ...
+  * ``mutate`` permet de convertir les types de certains champs
+  * ``geoip`` permet d'obtenir des informations géographique à partir de l'adresse IP d'origine
+  * ``date`` est utilisée ici pour reformatter le timestamp
 
-* output: permet de spécifier la destination d'envoi des données une fois que celles-ci sont passées par l'étape filter
+* ``output``: permet de spécifier la destination d'envoi des données une fois que celles-ci sont passées par l'étape filter
 
 ## Lancement de la stack ELK
 
@@ -125,7 +125,7 @@ Nous allons tout d'abord utiliser un fichier de log de test et envoyer son conte
 Nous utilisons pour cela l'image *mingrammer/flog* afin de générer des entrées de log au format Nginx. Le fichier nginx.log généré contient 1000 entrées de logs.
 
 ```
-docker run mingrammer/flog -f apache_combined > nginx.log
+docker run mingrammer/flog:0.4.3 -f apache_combined > nginx.log
 ```
 
 La commande suivante permet d'envoyer chaque ligne à Logstash:
@@ -171,5 +171,5 @@ Manipulez ensuite l'interface pour créer vos propres visualisations et un dashb
 Vous pouvez ensuite supprimer cette stack à l'aide de la commande suivante:
 
 ```
-docker compose down -v
+docker-compose down -v
 ```
